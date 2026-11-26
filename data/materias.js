@@ -18,6 +18,9 @@ window.SUBJECTS = [
       ] },
       { id: "u4", name: "4 · Marketing", secs: [
         ["4.1", "Introduction to marketing"], ["4.2", "Marketing planning"], ["4.3", "Sales forecasting"], ["4.4", "Market research"], ["4.5", "The seven Ps"], ["4.6", "International marketing"]
+      ] },
+      { id: "u5", name: "5 · Operations Management", secs: [
+        ["5.1", "Introduction to operations"], ["5.2", "Operations methods"], ["5.3", "Lean production and quality"], ["5.4", "Location"], ["5.5", "Break-even analysis"]
       ] }
     ]
   }
