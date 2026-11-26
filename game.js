@@ -64,6 +64,7 @@
     app.classList.remove("enter"); void app.offsetWidth; app.classList.add("enter");
     window.scrollTo(0, 0);
   }
+  function dsec(s) { return String(s).replace(/^X/, ""); }
   function subjectById(id) { return SUBJECTS.filter(function (s) { return s.id === id; })[0] || SUBJECTS[0]; }
   function secName(subj, sec) {
     var out = "";
@@ -418,7 +419,7 @@
     var units = s.units.map(function (u) {
       var rows = u.secs.map(function (sc) {
         var st = secStats(sc[0]);
-        return '<div class="secrow"><span class="sec-id">' + sc[0] + '</span><span class="sec-n">' + esc(sc[1]) + "</span>" +
+        return '<div class="secrow"><span class="sec-id">' + dsec(sc[0]) + '</span><span class="sec-n">' + esc(sc[1]) + "</span>" +
           '<span class="sec-q">' + (st.n ? st.n + " Questions" : "soon") + "</span>" +
           '<div class="meter" title="Mastery ' + st.mastery + '%"><i style="width:' + st.mastery + '%"></i></div>' +
           '<span class="sec-acc">' + (st.acc === null ? "—" : st.acc + "%") + "</span>" +
@@ -443,7 +444,7 @@
   // ---------- partida ----------
   function run(kind, d) {
     var s = subjectById(d.id), ids, label;
-    if (kind === "sec") { ids = pick(secIds(d.sec), RUN); label = d.sec + " " + secName(s, d.sec); }
+    if (kind === "sec") { ids = pick(secIds(d.sec), RUN); label = dsec(d.sec) + " " + secName(s, d.sec); }
     else if (kind === "unit") {
       var u = s.units.filter(function (x) { return x.id === d.unit; })[0];
       ids = pick(unitIds(u), MIX); label = u.name;
@@ -579,7 +580,7 @@
       : '<span class="mk no">✗</span> Not quite. The correct answer is <u>' + "ABCD".charAt(G.cur.pos) + "</u>.";
     $("after").innerHTML =
       '<div class="why ' + (ok ? "t-" + DIFF[q.d].t : "t-x") + '"><div class="why-h">' + head + "</div>" +
-      "<p>" + esc(q.why) + '</p><span class="src">' + (q.sec === "P1" ? "Paper 1 · FP case" : "Notes · section " + q.sec) + "</span></div>" +
+      "<p>" + esc(q.why) + '</p><span class="src">' + (q.sec === "P1" ? "Paper 1 · FP case" : "Notes · section " + dsec(q.sec)) + "</span></div>" +
       '<div class="after-row"><span></span><button class="btn" id="next" data-go="next">' + (last ? "See results" : "Next") + "</button></div>";
     $("next").focus();
   }
@@ -615,7 +616,7 @@
     var rows = o.results.map(function (r, i) {
       var q = QB.get(r.id);
       return '<tr style="--i:' + i + '"><td>' + esc(q.q) + (r.ok ? "" : '<div class="ans-ok">Correct answer: ' + esc(q.o[q.a]) + "</div>") +
-        "</td><td>" + q.sec + "</td><td>" + (r.ok ? '<span class="mk ok">✓</span>' : '<span class="mk no">✗</span>') + "</td></tr>";
+        "</td><td>" + dsec(q.sec) + "</td><td>" + (r.ok ? '<span class="mk ok">✓</span>' : '<span class="mk no">✗</span>') + "</td></tr>";
     }).join("");
     var haul = o.results.filter(function (r) { return r.ok; }).map(function (r, i) {
       return '<span style="--i:' + i + '">' + Corgi.item(r.tier, 40) + "</span>";
