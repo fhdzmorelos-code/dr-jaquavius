@@ -14,10 +14,10 @@ window.SUBJECTS = [
       ] },
       { id: "u3", name: "3 · Finance and Accounts", secs: [
         ["3.1", "Introduction to finance"], ["3.2", "Sources of finance"], ["3.3", "Costs and revenues"],
-        ["3.4", "Final accounts"], ["3.5", "Profitability and liquidity ratios"], ["3.6", "Efficiency ratios"], ["3.7", "Cash flow"]
+        ["3.4", "Final accounts"], ["3.5", "Profitability and liquidity ratios"], ["3.6", "Efficiency ratios"], ["3.7", "Cash flow"], ["3.8", "Investment appraisal"], ["3.9", "Budgets"]
       ] },
       { id: "u4", name: "4 · Marketing", secs: [
-        ["4.1", "Introduction to marketing"], ["4.2", "Marketing planning"], ["4.4", "Market research"], ["4.5", "The seven Ps"]
+        ["4.1", "Introduction to marketing"], ["4.2", "Marketing planning"], ["4.3", "Sales forecasting"], ["4.4", "Market research"], ["4.5", "The seven Ps"], ["4.6", "International marketing"]
       ] }
     ]
   }
