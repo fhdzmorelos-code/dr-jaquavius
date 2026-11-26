@@ -22,6 +22,12 @@ window.SUBJECTS = [
       { id: "u5", name: "5 · Operations Management", secs: [
         ["5.1", "Introduction to operations"], ["5.2", "Operations methods"], ["5.3", "Lean production and quality"], ["5.4", "Location"], ["5.5", "Break-even analysis"],
         ["5.6", "Production planning"], ["5.7", "Crisis management"], ["5.8", "Research and development"], ["5.9", "Information systems"]
+      ] },
+      { id: "u7", name: "7 · Business Management Toolkit", secs: [
+        ["7.1.1", "SWOT / STEEPLE"], ["7.1.2", "Ansoff matrix"], ["7.1.3", "Circular business models"], ["7.1.4", "Business plan"],
+        ["7.1.5", "Force field analysis"], ["7.1.6", "Hofstede's dimensions"], ["7.1.7", "Decision tree"], ["7.1.8", "BCG matrix"],
+        ["7.1.9", "Gantt chart"], ["7.1.10", "Critical path analysis"], ["7.1.11", "Porter's strategies"], ["7.1.12", "Contribution"],
+        ["7.1.13", "Linear regression"], ["7.1.14", "Descriptive statistics"]
       ] }
     ]
   }
