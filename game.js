@@ -7,11 +7,11 @@
   var app = document.getElementById("app");
 
   // dificultad 1 a 3 -> nivel de hallazgo (el dibujo es el mismo de Corgillion: tierrita, piedrita, hueso)
-  var TIERS = [
-    { n: "Dirt", p: 10, say: "Just dirt…" },
-    { n: "Pebble", p: 20, say: "A pebble." },
-    { n: "Bone", p: 35, say: "A bone!" }
-  ];
+  // dificultad 1 a 3 -> etiqueta y hallazgo (dibujos de Corgillion: 1 piedrita, 2 fósil/hueso, 5 hueso dorado)
+  var DIFF = { 1: { n: "Easy", t: 1 }, 2: { n: "Normal", t: 2 }, 3: { n: "Hard", t: 5 } };
+  var ITEMNAME = { 1: "Pebble", 2: "Fossil", 5: "Golden bone" };
+  var PTS = 20; // todos los aciertos valen lo mismo
+  var TINTS = ["#ffffff", "#eaf1ff", "#fff3dc", "#e9f9ef", "#f4eaff"];
   var PX = 4, GROUND = 230, PXM = 0.26, DOG = 72, RUN = 10, MIX = 15;
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -56,7 +56,7 @@
   }
   function meters(pts) { return Math.round(pts * 10).toLocaleString("en-US") + " m"; }
   function chip(t) {
-    return '<span class="chip t-' + t + '">' + Corgi.item(t, 18) + TIERS[t].n + "</span>";
+    return '<span class="chip t-' + t + '">' + Corgi.item(t, 18) + ITEMNAME[t] + "</span>";
   }
   function show(html) {
     document.body.classList.remove("jugando");
@@ -484,7 +484,7 @@
 
   function dot(r, i) {
     var cls = r ? (r.ok ? "t-" + r.tier : "t-x") : (i === G.idx && G.phase === "ask" ? "now" : "");
-    return '<i class="dot' + (r ? " done " : " ") + cls + '">' + (r ? (r.ok ? r.pts : "0") : "") + "</i>";
+    return '<i class="dot' + (r ? " done " : " ") + cls + '">' + (r ? (r.ok ? "✓" : "✗") : "") + "</i>";
   }
   function drawTrail() {
     var el = $("trail"), h = "", i;
@@ -504,10 +504,11 @@
     G.cur = layout(q, G.hist); G.hist.push(G.cur.pos);
     drawTrail();
     var qe = $("q");
-    qe.textContent = q.q;
+    qe.innerHTML = '<span class="diff d' + q.d + '">' + DIFF[q.d].n + "</span>" + esc(q.q);
     qe.classList.remove("in"); void qe.offsetWidth; qe.classList.add("in");
+    var tints = shuffle(TINTS.slice()); // el color de fondo de cada opción cambia al azar en cada pregunta
     $("opts").innerHTML = G.cur.opts.map(function (t, i) {
-      return '<button class="opt" type="button" data-opt="' + i + '"><b>' + "ABCD".charAt(i) + "</b><span>" + esc(t) + "</span></button>";
+      return '<button class="opt" type="button" style="--ob:' + tints[i] + '" data-opt="' + i + '"><b>' + "ABCD".charAt(i) + "</b><span>" + esc(t) + "</span></button>";
     }).join("");
     $("after").innerHTML = "";
     $("digger").className = "digger";
@@ -531,8 +532,8 @@
 
   function answer(i) {
     if (!G || G.phase !== "ask") return;
-    var q = QB.get(G.deck[G.idx]), ok = i === G.cur.pos, g = G, tier = q.d - 1;
-    var pts = ok ? TIERS[tier].p : 0, from = G.score;
+    var q = QB.get(G.deck[G.idx]), ok = i === G.cur.pos, g = G, tier = DIFF[q.d].t;
+    var pts = ok ? PTS : 0, from = G.score;
     G.phase = "dig";
     G.score += pts;
     G.results.push({ id: q.id, ok: ok, pick: G.cur.opts[i], pts: pts, tier: tier });
@@ -564,7 +565,7 @@
       SFX.found(tier);
       found.style.top = (yFor(G.score) - 46) + "px";
       found.className = "found show t-" + tier;
-      found.innerHTML = Corgi.item(tier, 60) + "<b>" + TIERS[tier].say + "</b>";
+      found.innerHTML = Corgi.item(tier, 60) + "<b>Correct!</b>";
       relic(tier, G.score, G.results.length - 1);
       reveal(q, ok, pts);
     }, reduce ? 0 : 1100);
@@ -574,11 +575,11 @@
     G.phase = "reveal";
     var last = G.idx + 1 >= G.deck.length;
     var head = ok
-      ? "Correct! " + chip(q.d - 1) + " +" + pts + " pts · down " + pts * 10 + " m"
-      : "Not quite. The correct answer is <u>" + "ABCD".charAt(G.cur.pos) + "</u>.";
+      ? '<span class="mk ok">✓</span> Correct!'
+      : '<span class="mk no">✗</span> Not quite. The correct answer is <u>' + "ABCD".charAt(G.cur.pos) + "</u>.";
     $("after").innerHTML =
-      '<div class="why ' + (ok ? "t-" + (q.d - 1) : "t-x") + '"><div class="why-h">' + head + "</div>" +
-      "<p>" + esc(q.why) + '</p><span class="src">Notes · section ' + q.sec + "</span></div>" +
+      '<div class="why ' + (ok ? "t-" + DIFF[q.d].t : "t-x") + '"><div class="why-h">' + head + "</div>" +
+      "<p>" + esc(q.why) + '</p><span class="src">' + (q.sec === "P1" ? "Paper 1 · FP case" : "Notes · section " + q.sec) + "</span></div>" +
       '<div class="after-row"><span></span><button class="btn" id="next" data-go="next">' + (last ? "See results" : "Next") + "</button></div>";
     $("next").focus();
   }
@@ -614,7 +615,7 @@
     var rows = o.results.map(function (r, i) {
       var q = QB.get(r.id);
       return '<tr style="--i:' + i + '"><td>' + esc(q.q) + (r.ok ? "" : '<div class="ans-ok">Correct answer: ' + esc(q.o[q.a]) + "</div>") +
-        "</td><td>" + q.sec + "</td><td>" + (r.ok ? chip(r.tier) : '<span class="chip t-x">Missed</span>') + "</td><td>+" + r.pts + "</td></tr>";
+        "</td><td>" + q.sec + "</td><td>" + (r.ok ? '<span class="mk ok">✓</span>' : '<span class="mk no">✗</span>') + "</td></tr>";
     }).join("");
     var haul = o.results.filter(function (r) { return r.ok; }).map(function (r, i) {
       return '<span style="--i:' + i + '">' + Corgi.item(r.tier, 40) + "</span>";
@@ -624,22 +625,13 @@
       '<header class="bar"><button class="btn ghost" data-go="home">Home</button>' +
       '<h1 style="--c:' + s.color + '">' + Corgi.icon(s.icon, 22) + esc(o.label) + "</h1><span></span></header>" +
       '<main class="results"><section class="panel score"><div class="stage">' + Corgi.svg(0, 168, hits ? "happy" : "sadloop") + '<div class="mound"></div></div>' +
-      '<div><div class="bubble">' + say + '</div><div class="big" id="big">0 m</div><div class="haul">' + haul + "</div>" +
-      '<div class="sub">' + o.score + " pts · " + right + " of " + n + " correct (" + pct + "%)</div>" +
+      '<div><div class="bubble">' + say + '</div><div class="big" id="big">' + right + " / " + n + '</div><div class="haul">' + haul + "</div>" +
+      '<div class="sub">' + pct + "% correct</div>" +
       '<div class="acts"><button class="btn" data-go="again">Play again</button>' +
       '<button class="btn alt"' + (w ? "" : " disabled") + ' data-run="review" data-id="' + s.id + '">Review mistakes (' + w + ")</button>" +
       '<button class="btn ghost" data-go="subject" data-id="' + s.id + '">Back to subject</button></div></div></section>' +
-      '<section class="panel"><h2>Your answers</h2><table class="rt"><tr><th>Question</th><th>Topic</th><th>Result</th><th>Pts</th></tr>' + rows + "</table></section></main>"
+      '<section class="panel"><h2>Your answers</h2><table class="rt"><tr><th>Question</th><th>Topic</th><th>Result</th></tr>' + rows + "</table></section></main>"
     );
-    var big = $("big"), t0 = performance.now();
-    if (reduce) { big.textContent = meters(o.score); return; }
-    (function step(now) {
-      if (shown !== o || !big.isConnected) return;
-      var k = Math.min(1, (now - t0) / 1200), e = 1 - Math.pow(1 - k, 3);
-      big.textContent = meters(o.score * e);
-      if (k < 1) requestAnimationFrame(step);
-    })(t0);
-    setTimeout(function () { if (big.isConnected) big.textContent = meters(o.score); }, 1300);
   }
 
   // ---------- sonido ----------
