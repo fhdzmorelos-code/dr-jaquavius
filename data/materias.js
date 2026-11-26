@@ -13,7 +13,8 @@ window.SUBJECTS = [
         ["2.4", "Motivation and demotivation"], ["2.5", "Organisational culture"], ["2.6", "Communication"], ["2.7", "Industrial relations"]
       ] },
       { id: "u3", name: "3 · Finance and Accounts", secs: [
-        ["3.1", "Introduction to finance"], ["3.2", "Sources of finance"], ["3.3", "Costs and revenues"]
+        ["3.1", "Introduction to finance"], ["3.2", "Sources of finance"], ["3.3", "Costs and revenues"],
+        ["3.4", "Final accounts"], ["3.5", "Profitability and liquidity ratios"], ["3.6", "Efficiency ratios"], ["3.7", "Cash flow"]
       ] },
       { id: "u4", name: "4 · Marketing", secs: [
         ["4.1", "Introduction to marketing"], ["4.2", "Marketing planning"], ["4.4", "Market research"], ["4.5", "The seven Ps"]
