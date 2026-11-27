@@ -543,3 +543,10 @@ svg.corgi, svg.item, canvas, svg.icon { image-rendering: pixelated; }
 .mk { display: inline-grid; place-items: center; width: 28px; height: 28px; border: 3px solid var(--ink); font-size: 18px; font-weight: 800; color: #fff; }
 .mk.ok { background: #3f9b3a; } .mk.no { background: #d8343a; }
 .rt td:last-child { text-align: center; }
+
+/* figuras de las preguntas (SVG dibujados en data/fisfig.js) */
+.qfig { display: flex; justify-content: center; margin: 0 0 16px; }
+.qfig svg { position: relative; z-index: 4; width: 100%; max-width: 480px; max-height: 270px; background: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 6px; }
+.opt.ofig { min-height: 0; padding: 12px 14px; }
+.opt.ofig span { flex: 1; display: flex; justify-content: center; }
+.opt.ofig svg { width: 100%; max-width: 260px; max-height: 150px; }

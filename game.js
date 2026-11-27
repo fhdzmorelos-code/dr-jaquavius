@@ -21,7 +21,7 @@
       quit: "Quit", qn: "Question ", ok: "Correct!", no1: "Not quite. The correct answer is ", next: "Next", see: "See results",
       src: "Notes \u00b7 section ", perfect: "Perfect! Not a single bone missed.", great: "Great dig. The professor approves.",
       solid: "Solid, but let's review the misses.", keep: "Keep digging. Read the explanations and try again.",
-      cans: "Correct answer: ", again: "Play again", back: "Back to subject", yours: "Your answers", cq: "Question", ct: "Topic", cr: "Result", pct: "% correct"
+      cans: "Correct answer: ", again: "Play again", back: "Back to subject", yours: "Your answers", fig: "diagram", cq: "Question", ct: "Topic", cr: "Result", pct: "% correct"
     },
     es: {
       diff: { 1: "F\u00e1cil", 2: "Normal", 3: "Dif\u00edcil" }, item: { 1: "Piedrita", 2: "F\u00f3sil", 5: "Hueso dorado" },
@@ -33,7 +33,7 @@
       quit: "Salir", qn: "Pregunta ", ok: "\u00a1Correcto!", no1: "No era esa. La correcta es la ", next: "Siguiente", see: "Ver resultados",
       src: "Apuntes \u00b7 secci\u00f3n ", perfect: "\u00a1Perfecto! Ni un hueso se te escap\u00f3.", great: "Gran excavaci\u00f3n. El profe aprueba.",
       solid: "Bien, pero repasemos lo que fallaste.", keep: "Sigue cavando. Lee las explicaciones y vuelve a intentar.",
-      cans: "Respuesta correcta: ", again: "Jugar otra vez", back: "Volver a la materia", yours: "Tus respuestas", cq: "Pregunta", ct: "Tema", cr: "Resultado", pct: "% correcto"
+      cans: "Respuesta correcta: ", again: "Jugar otra vez", back: "Volver a la materia", yours: "Tus respuestas", fig: "figura", cq: "Pregunta", ct: "Tema", cr: "Resultado", pct: "% correcto"
     }
   };
   function L(s) { return TXT[(s && s.lang) || "en"]; }
@@ -502,7 +502,7 @@
       '</div><div class="trail' + (G.deck.length > 10 ? " many" : "") + '" id="trail"></div></div>' +
       '<div class="depth"><b id="dnum">0 m</b><span id="dpts">0 pts</span></div></header>' +
       '<section class="ask"><div class="timer"><div class="timer-fill" id="tfill"></div><span class="timer-txt" id="ttxt"></span></div>' +
-      '<div class="q" id="q"></div><div id="zone"><div class="opts" id="opts"></div><div id="after"></div></div></section>'
+      '<div class="q" id="q"></div><div class="qfig" id="qf"></div><div id="zone"><div class="opts" id="opts"></div><div id="after"></div></div></section>'
     );
     document.body.classList.add("jugando");
     paintSound();
@@ -526,6 +526,10 @@
     }
   }
 
+  // figuras: q.img es un nombre de FIG; una opción "@nombre" se dibuja como figura
+  function fig(name) { return window.FIG && FIG[name] ? FIG[name]() : ""; }
+  function isFig(t) { return typeof t === "string" && /^@[\w-]+$/.test(t); }
+
   function ask() {
     var q = QB.get(G.deck[G.idx]);
     G.phase = "ask";
@@ -534,9 +538,12 @@
     var qe = $("q");
     qe.innerHTML = '<span class="diff d' + q.d + '">' + L(subjectById(G.subj)).diff[q.d] + "</span>" + esc(q.q);
     qe.classList.remove("in"); void qe.offsetWidth; qe.classList.add("in");
+    var qf = $("qf");
+    qf.innerHTML = q.img ? fig(q.img) : "";
+    qf.style.display = q.img ? "" : "none";
     var tints = shuffle(TINTS.slice()); // el color de fondo de cada opción cambia al azar en cada pregunta
     $("opts").innerHTML = G.cur.opts.map(function (t, i) {
-      return '<button class="opt" type="button" style="--ob:' + tints[i] + '" data-opt="' + i + '"><b>' + "ABCD".charAt(i) + "</b><span>" + esc(t) + "</span></button>";
+      return '<button class="opt' + (isFig(t) ? " ofig" : "") + '" type="button" style="--ob:' + tints[i] + '" data-opt="' + i + '"><b>' + "ABCD".charAt(i) + "</b><span>" + (isFig(t) ? fig(t.slice(1)) : esc(t)) + "</span></button>";
     }).join("");
     $("after").innerHTML = "";
     $("digger").className = "digger";
@@ -640,7 +647,7 @@
     var say = pct === 100 ? T.perfect : pct >= 80 ? T.great : pct >= 50 ? T.solid : T.keep;
     var rows = o.results.map(function (r, i) {
       var q = QB.get(r.id);
-      return '<tr style="--i:' + i + '"><td>' + esc(q.q) + (r.ok ? "" : '<div class="ans-ok">' + T.cans + esc(q.o[q.a]) + "</div>") +
+      return '<tr style="--i:' + i + '"><td>' + esc(q.q) + (r.ok ? "" : '<div class="ans-ok">' + T.cans + (isFig(q.o[q.a]) ? "(" + T.fig + ")" : esc(q.o[q.a])) + "</div>") +
         "</td><td>" + dsec(q.sec) + "</td><td>" + (r.ok ? '<span class="mk ok">✓</span>' : '<span class="mk no">✗</span>') + "</td></tr>";
     }).join("");
     var haul = o.results.filter(function (r) { return r.ok; }).map(function (r, i) {
