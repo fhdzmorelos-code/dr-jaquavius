@@ -55,7 +55,7 @@ QB.add("A.3.2", [
     why: "En mgh = ½mv² la masa aparece en ambos lados y se cancela (A.3.2)." },
   { q: "Un cohete de juguete se lanza hacia arriba a 14 m s⁻¹. Sin energía desperdiciada, ¿qué altura alcanza?", o: ["10 m", "20 m", "1.4 m", "7.1 m"], a: 0, d: 2,
     why: "½mv² = mgh → h = v²/(2g) = 14²/(2 × 9.8) = 10 m (A.3.2)." },
-  { q: "Un bloque sube por una rampa rugosa. ¿Qué ocurre con la energía?", o: ["La mecánica disminuye, pero la total se conserva (hay energía térmica)", "La energía total disminuye", "La mecánica aumenta por la fricción", "La fricción no afecta a la energía"], a: 0, d: 2,
+  { q: "Un bloque sube por una rampa rugosa. ¿Qué ocurre con la energía?", o: ["La mecánica disminuye, pero la total se conserva (hay energía térmica)", "La energía total disminuye, porque la fricción destruye energía", "La energía mecánica aumenta por el trabajo de la fricción", "La fricción no afecta a la energía mecánica del bloque"], a: 0, d: 2,
     why: "El trabajo contra la fricción se transfiere al entorno como energía térmica; la energía total siempre se conserva (A.3.2)." },
   { q: "Un bloque se desliza a 2.0 m s⁻¹ sobre una superficie horizontal con μ_d = 0.15. ¿Qué distancia recorre hasta detenerse?", o: ["1.4 m", "2.7 m", "0.20 m", "13 m"], a: 0, d: 3,
     why: "−μ_d mg s = −½mv² → s = v²/(2μ_d g) = 4/(2 × 0.15 × 9.8) ≈ 1.4 m (A.3.2)." },
@@ -86,7 +86,7 @@ QB.add("A.3.3", [
     why: "η = 50/200 = 0.25 = 25 %; el 75 % restante se disipa (A.3.3)." },
   { q: "Una corredora de 72 kg sube 3.0 m de escaleras en 15 s. ¿Cuál es su potencia?", o: ["140 W", "2100 W", "14 W", "710 W"], a: 0, d: 2,
     why: "P = mgΔh/Δt = 72 × 9.8 × 3.0/15 ≈ 140 W (A.3.3)." },
-  { q: "¿Por qué no pueden existir las máquinas de movimiento perpetuo?", o: ["Violan las leyes de la física: darían salida útil sin entrada o sin pérdidas", "Porque no existen materiales sin fricción", "Porque la energía se destruye con el tiempo", "Porque los motores siempre se calientan"], a: 0, d: 1,
+  { q: "¿Por qué no pueden existir las máquinas de movimiento perpetuo?", o: ["Violan las leyes de la física: darían salida útil sin entrada o sin pérdidas", "Porque no existen materiales completamente libres de fricción", "Porque la energía se destruye lentamente con el paso del tiempo", "Porque los motores siempre se calientan al funcionar mucho"], a: 0, d: 1,
     why: "Una máquina así transferiría energía sin pérdida o produciría trabajo con entrada cero, lo cual es imposible (A.3.3)." },
   { q: "Un motor recibe 800 W y entrega 600 W de potencia útil. ¿Cuál es su eficiencia?", o: ["0.75", "1.33", "0.25", "200"], a: 0, d: 1,
     why: "η = P_sal/P_ent = 600/800 = 0.75 (A.3.3)." }

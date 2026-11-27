@@ -74,6 +74,14 @@ window.SUBJECTS.push({
     { id: "fd3", name: "D.3 · Movimiento en campos electromagnéticos", secs: [
       ["D.3.1", "Partícula en un campo eléctrico uniforme"], ["D.3.2", "Partícula en un campo magnético uniforme"],
       ["D.3.3", "Magnitud de la fuerza magnética"], ["D.3.4", "Corriente y campos magnéticos"]
+    ] },
+    { id: "fe1", name: "E.1 · Estructura del átomo", secs: [["E.1.1", "El núcleo y los niveles de energía atómicos"]] },
+    { id: "fe3", name: "E.3 · Desintegración radiactiva", secs: [
+      ["E.3.1", "Desintegración radiactiva"], ["E.3.2", "Radiación nuclear"], ["E.3.3", "Periodo de semidesintegración"], ["E.3.4", "Energía de enlace y defecto de masa"]
+    ] },
+    { id: "fe4", name: "E.4 · Fisión", secs: [["E.4.1", "Fisión nuclear"], ["E.4.2", "Centrales nucleares"]] },
+    { id: "fe5", name: "E.5 · Fusión y estrellas", secs: [
+      ["E.5.1", "Fusión en las estrellas"], ["E.5.2", "El diagrama HR"], ["E.5.3", "Radio de una estrella"], ["E.5.4", "Medición de distancias en el espacio"]
     ] }
   ]
 });

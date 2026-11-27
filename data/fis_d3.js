@@ -1,6 +1,6 @@
 // Física NM · D.3 Movimiento en campos electromagnéticos (en español)
 QB.add("D.3.1", [
-  { q: "¿Qué fuerza siente una carga q en un campo eléctrico E?", o: ["F = qE, en la dirección de E si es positiva y opuesta si es negativa", "F = qE, siempre en la dirección de E", "F = q/E, perpendicular a E", "F = qE, siempre perpendicular a E"], a: 0, d: 1,
+  { q: "¿Qué fuerza siente una carga q en un campo eléctrico E?", o: ["F = qE, en la dirección de E si es positiva y opuesta si es negativa", "F = qE, siempre en la dirección de E, sea cual sea el signo de la carga", "F = q/E, perpendicular a E, sea cual sea el signo de la carga", "F = qE, siempre perpendicular a E, sea cual sea el signo de la carga"], a: 0, d: 1,
     why: "Una carga positiva es empujada a lo largo del campo y una negativa en sentido contrario (D.3.1)." },
   { q: "¿De qué depende la aceleración de una partícula en un campo eléctrico?", o: ["Del campo, de la carga y de la masa: a = qE/m", "Solo del campo", "Solo de la masa", "Solo de la carga"], a: 0, d: 1,
     why: "A diferencia de la gravedad, la aceleración depende de la carga y de la masa (D.3.1)." },
@@ -91,7 +91,7 @@ QB.add("D.3.4", [
     why: "Cada alambre siente la fuerza del campo del otro, y es repulsiva (D.3.4)." },
   { q: "Dos alambres paralelos, separados 1.0 m, llevan 1.0 A cada uno. ¿Cuánto vale F/L? (μ₀ = 4π × 10⁻⁷ T m A⁻¹)", o: ["2 × 10⁻⁷ N m⁻¹", "4π × 10⁻⁷ N m⁻¹", "2π × 10⁻⁷ N m⁻¹", "1 × 10⁻⁷ N m⁻¹"], a: 0, d: 2,
     why: "F/L = μ₀I₁I₂/(2πr) = 4π×10⁻⁷ × 1 × 1/(2π × 1.0) = 2×10⁻⁷ N m⁻¹ (D.3.4)." },
-  { q: "¿Cómo funciona un motor de corriente continua?", o: ["Una bobina con corriente en un campo magnético experimenta fuerzas que la hacen girar", "Un imán gira por el aire", "Una bobina sin corriente atrae un imán", "Las cargas se descargan en el campo"], a: 0, d: 1,
+  { q: "¿Cómo funciona un motor de corriente continua?", o: ["Una bobina con corriente en un campo magnético experimenta fuerzas que la hacen girar", "Un imán gira por el aire al ser atraído por un núcleo de hierro", "Una bobina sin corriente atrae a un imán y lo hace girar", "Las cargas se descargan en el campo magnético y producen el giro"], a: 0, d: 1,
     why: "Se usa en autos de juguete, cepillos de dientes, drones y ventiladores (D.3.4)." },
   { q: "Se duplica la corriente en uno solo de dos alambres paralelos. ¿Cómo cambia F/L?", o: ["Se duplica", "Se cuadruplica", "Se reduce a la mitad", "No cambia"], a: 0, d: 1,
     why: "F/L = μ₀I₁I₂/(2πr) es proporcional a cada corriente (D.3.4)." }
