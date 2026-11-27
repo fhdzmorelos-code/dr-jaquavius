@@ -15,8 +15,17 @@
     });
   }
 
+  function clone(from, to) {
+    var src = bySec[from] || [], arr = bySec[to] || (bySec[to] = []);
+    src.forEach(function (q) {
+      var n = { q: q.q, o: q.o.slice(), a: q.a, d: q.d, why: q.why, sec: to, id: to + "-" + (arr.length + 1) };
+      arr.push(n); byId[n.id] = n;
+    });
+  }
+
   root.QB = {
     add: add,
+    clone: clone,
     sec: function (s) { return bySec[s] || []; },
     get: function (id) { return byId[id]; },
     count: function (s) { return (bySec[s] || []).length; }

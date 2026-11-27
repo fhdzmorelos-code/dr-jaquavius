@@ -10,6 +10,33 @@
   // dificultad 1 a 3 -> etiqueta y hallazgo (dibujos de Corgillion: 1 piedrita, 2 fósil/hueso, 5 hueso dorado)
   var DIFF = { 1: { n: "Easy", t: 1 }, 2: { n: "Normal", t: 2 }, 3: { n: "Hard", t: 5 } };
   var ITEMNAME = { 1: "Pebble", 2: "Fossil", 5: "Golden bone" };
+  var TXT = {
+    en: {
+      diff: { 1: "Easy", 2: "Normal", 3: "Hard" }, item: { 1: "Pebble", 2: "Fossil", 5: "Golden bone" },
+      open: "Open subject", openD: "Pick a topic and practise it.", nq: " questions",
+      all: "All topics", allD: " random questions from everything.", mixed: "Mixed",
+      rev: "Review mistakes", revD: "Only what you got wrong, until you get it twice in a row.", toRev: " to review",
+      soon: "soon", qs: " Questions", practice: "Practice", unit: "Unit mix", mastery: "Mastery", acc: "Accuracy", home: "Home",
+      bank1: " questions in the bank. Practice picks ", bank2: " at a time, starting with the ones you've seen least.",
+      quit: "Quit", qn: "Question ", ok: "Correct!", no1: "Not quite. The correct answer is ", next: "Next", see: "See results",
+      src: "Notes \u00b7 section ", perfect: "Perfect! Not a single bone missed.", great: "Great dig. The professor approves.",
+      solid: "Solid, but let's review the misses.", keep: "Keep digging. Read the explanations and try again.",
+      cans: "Correct answer: ", again: "Play again", back: "Back to subject", yours: "Your answers", cq: "Question", ct: "Topic", cr: "Result", pct: "% correct"
+    },
+    es: {
+      diff: { 1: "F\u00e1cil", 2: "Normal", 3: "Dif\u00edcil" }, item: { 1: "Piedrita", 2: "F\u00f3sil", 5: "Hueso dorado" },
+      open: "Abrir materia", openD: "Elige un tema y practica.", nq: " preguntas",
+      all: "Todos los temas", allD: " preguntas al azar de todo.", mixed: "Mezcla",
+      rev: "Repasar errores", revD: "Solo lo que fallaste, hasta acertarlo 2 veces seguidas.", toRev: " por repasar",
+      soon: "pronto", qs: " preguntas", practice: "Practicar", unit: "Mezcla del tema", mastery: "Dominio", acc: "Aciertos", home: "Inicio",
+      bank1: " preguntas en el banco. Cada pr\u00e1ctica trae ", bank2: " a la vez, empezando por las que menos has visto.",
+      quit: "Salir", qn: "Pregunta ", ok: "\u00a1Correcto!", no1: "No era esa. La correcta es la ", next: "Siguiente", see: "Ver resultados",
+      src: "Apuntes \u00b7 secci\u00f3n ", perfect: "\u00a1Perfecto! Ni un hueso se te escap\u00f3.", great: "Gran excavaci\u00f3n. El profe aprueba.",
+      solid: "Bien, pero repasemos lo que fallaste.", keep: "Sigue cavando. Lee las explicaciones y vuelve a intentar.",
+      cans: "Respuesta correcta: ", again: "Jugar otra vez", back: "Volver a la materia", yours: "Tus respuestas", cq: "Pregunta", ct: "Tema", cr: "Resultado", pct: "% correcto"
+    }
+  };
+  function L(s) { return TXT[(s && s.lang) || "en"]; }
   var PTS = 20; // todos los aciertos valen lo mismo
   var TINTS = ["#ffffff", "#eaf1ff", "#fff3dc", "#e9f9ef", "#f4eaff"];
   var PX = 4, GROUND = 230, PXM = 0.26, DOG = 72, RUN = 10, MIX = 15;
@@ -390,9 +417,9 @@
       var w = wrongIds(s).length, t = totals(s);
       return '<section class="panel catbox" style="--c:' + s.color + '"><div class="cat-head"><h2>' + Corgi.icon(s.icon, 28) + "<span>" + esc(s.name) +
         "</span></h2><p>" + esc(s.desc) + '</p></div><div class="modegrid">' +
-        '<button class="mode" data-go="subject" data-id="' + s.id + '">'+Corgi.icon("casa",32)+'<span class="mode-t"><span class="mode-n">Open subject</span><span class="mode-d">Pick a topic and practise it.</span></span><span class="mode-x">' + t.n + " questions</span></button>" +
-        '<button class="mode" data-run="all" data-id="' + s.id + '">'+Corgi.icon("planeta",32)+'<span class="mode-t"><span class="mode-n">All topics</span><span class="mode-d">' + MIX + ' random questions from everything.</span></span><span class="mode-x">Mixed</span></button>' +
-        '<button class="mode"' + (w ? "" : " disabled") + ' data-run="review" data-id="' + s.id + '">'+Corgi.icon("equis",32)+'<span class="mode-t"><span class="mode-n">Review mistakes</span><span class="mode-d">Only what you got wrong, until you get it twice in a row.</span></span><span class="mode-x">' + w + " to review</span></button>" +
+        '<button class="mode" data-go="subject" data-id="' + s.id + '">'+Corgi.icon("casa",32)+'<span class="mode-t"><span class="mode-n">' + L(s).open + '</span><span class="mode-d">' + L(s).openD + '</span></span><span class="mode-x">' + t.n + L(s).nq + '</span></button>' +
+        '<button class="mode" data-run="all" data-id="' + s.id + '">'+Corgi.icon("planeta",32)+'<span class="mode-t"><span class="mode-n">' + L(s).all + '</span><span class="mode-d">' + MIX + L(s).allD + '</span></span><span class="mode-x">' + L(s).mixed + '</span></button>' +
+        '<button class="mode"' + (w ? "" : " disabled") + ' data-run="review" data-id="' + s.id + '">'+Corgi.icon("equis",32)+'<span class="mode-t"><span class="mode-n">' + L(s).rev + '</span><span class="mode-d">' + L(s).revD + '</span></span><span class="mode-x">' + w + L(s).toRev + '</span></button>' +
         "</section>";
     }).join("");
     var t0 = totals(SUBJECTS[0]);
@@ -420,23 +447,23 @@
       var rows = u.secs.map(function (sc) {
         var st = secStats(sc[0]);
         return '<div class="secrow"><span class="sec-id">' + dsec(sc[0]) + '</span><span class="sec-n">' + esc(sc[1]) + "</span>" +
-          '<span class="sec-q">' + (st.n ? st.n + " Questions" : "soon") + "</span>" +
-          '<div class="meter" title="Mastery ' + st.mastery + '%"><i style="width:' + st.mastery + '%"></i></div>' +
+          '<span class="sec-q">' + (st.n ? st.n + L(s).qs : L(s).soon) + "</span>" +
+          '<div class="meter" title="' + L(s).mastery + ' ' + st.mastery + '%"><i style="width:' + st.mastery + '%"></i></div>' +
           '<span class="sec-acc">' + (st.acc === null ? "—" : st.acc + "%") + "</span>" +
-          '<button class="btn small"' + (st.n ? "" : " disabled") + ' data-run="sec" data-id="' + s.id + '" data-sec="' + sc[0] + '">Practice</button></div>';
+          '<button class="btn small"' + (st.n ? "" : " disabled") + ' data-run="sec" data-id="' + s.id + '" data-sec="' + sc[0] + '">' + L(s).practice + '</button></div>';
       }).join("");
       var n = unitIds(u).length;
       return '<section class="panel unit"><div class="unit-h"><h2>' + esc(u.name) + '</h2><button class="btn small alt"' + (n ? "" : " disabled") +
-        ' data-run="unit" data-id="' + s.id + '" data-unit="' + u.id + '">Unit mix (' + Math.min(MIX, n) + ')</button></div>' +
-        '<div class="sec-head"><span></span><span></span><span></span><span>Mastery</span><span>Accuracy</span><span></span></div>' + rows + "</section>";
+        ' data-run="unit" data-id="' + s.id + '" data-unit="' + u.id + '">' + L(s).unit + ' (' + Math.min(MIX, n) + ')</button></div>' +
+        '<div class="sec-head"><span></span><span></span><span></span><span>' + L(s).mastery + '</span><span>' + L(s).acc + '</span><span></span></div>' + rows + "</section>";
     }).join("");
     show(
-      '<header class="bar"><button class="btn ghost" data-go="home">Home</button>' +
+      '<header class="bar"><button class="btn ghost" data-go="home">' + L(s).home + '</button>' +
       '<h1 style="--c:' + s.color + '">' + Corgi.icon(s.icon, 22) + esc(s.name) + "</h1><span></span></header>" +
       '<main class="subj"><section class="panel quick"><div class="acts">' +
-      '<button class="btn" data-run="all" data-id="' + s.id + '">All topics (' + Math.min(MIX, t.n) + ')</button>' +
-      '<button class="btn alt"' + (w ? "" : " disabled") + ' data-run="review" data-id="' + s.id + '">Review mistakes (' + w + ")</button></div>" +
-      "<p>" + t.n + " questions in the bank. Practice picks " + RUN + " at a time, starting with the ones you've seen least.</p></section>" +
+      '<button class="btn" data-run="all" data-id="' + s.id + '">' + L(s).all + ' (' + Math.min(MIX, t.n) + ')</button>' +
+      '<button class="btn alt"' + (w ? "" : " disabled") + ' data-run="review" data-id="' + s.id + '">' + L(s).rev + ' (' + w + ")</button></div>" +
+      "<p>" + t.n + L(s).bank1 + RUN + L(s).bank2 + "</p></section>" +
       units + "</main>"
     );
   }
@@ -449,8 +476,8 @@
       var u = s.units.filter(function (x) { return x.id === d.unit; })[0];
       ids = pick(unitIds(u), MIX); label = u.name;
     }
-    else if (kind === "all") { ids = pick(allIds(s), MIX); label = "All topics"; }
-    else { ids = pick(wrongIds(s), RUN); label = "Review mistakes"; }
+    else if (kind === "all") { ids = pick(allIds(s), MIX); label = L(s).all; }
+    else { ids = pick(wrongIds(s), RUN); label = L(s).rev; }
     if (!ids.length) return;
     lastRun = { kind: kind, d: { id: d.id, sec: d.sec, unit: d.unit } };
     G = { kind: kind, arg: d.sec || d.unit || "", subj: s.id, label: label, deck: ids, idx: 0, results: [], score: 0, hist: [], phase: "ask", cur: null };
@@ -469,7 +496,7 @@
       '<div class="scene" id="scene"><div class="world" id="world"><canvas id="strata"></canvas>' +
       '<div id="ticks"></div><div class="tunnel" id="tunnel"></div><div id="relics"></div>' +
       '<div class="digger" id="digger">' + Corgi.svg(0, DOG) + '</div><div class="found" id="found"></div></div></div>' +
-      '<header class="hud"><div class="hud-izq"><button class="btn ghost" data-go="quit">Quit</button>' +
+      '<header class="hud"><div class="hud-izq"><button class="btn ghost" data-go="quit">' + L(s).quit + '</button>' +
       '<button class="btn ghost small" data-go="sound" data-snd="1"></button></div>' +
       '<div class="trailbox"><div class="hud-title" style="--c:' + s.color + '">' + Corgi.icon(s.icon, 16) + esc(G.label) +
       '</div><div class="trail' + (G.deck.length > 10 ? " many" : "") + '" id="trail"></div></div>' +
@@ -495,7 +522,7 @@
     var fill = $("tfill");
     if (fill) {
       fill.style.transform = "scaleX(" + (G.results.length + (G.phase === "ask" ? 0 : 0)) / G.deck.length + ")";
-      $("ttxt").textContent = "Question " + Math.min(G.idx + 1, G.deck.length) + " / " + G.deck.length;
+      $("ttxt").textContent = L(subjectById(G.subj)).qn + Math.min(G.idx + 1, G.deck.length) + " / " + G.deck.length;
     }
   }
 
@@ -505,7 +532,7 @@
     G.cur = layout(q, G.hist); G.hist.push(G.cur.pos);
     drawTrail();
     var qe = $("q");
-    qe.innerHTML = '<span class="diff d' + q.d + '">' + DIFF[q.d].n + "</span>" + esc(q.q);
+    qe.innerHTML = '<span class="diff d' + q.d + '">' + L(subjectById(G.subj)).diff[q.d] + "</span>" + esc(q.q);
     qe.classList.remove("in"); void qe.offsetWidth; qe.classList.add("in");
     var tints = shuffle(TINTS.slice()); // el color de fondo de cada opción cambia al azar en cada pregunta
     $("opts").innerHTML = G.cur.opts.map(function (t, i) {
@@ -566,7 +593,7 @@
       SFX.found(tier);
       found.style.top = (yFor(G.score) - 46) + "px";
       found.className = "found show t-" + tier;
-      found.innerHTML = Corgi.item(tier, 60) + "<b>Correct!</b>";
+      found.innerHTML = Corgi.item(tier, 60) + "<b>" + L(subjectById(G.subj)).ok + "</b>";
       relic(tier, G.score, G.results.length - 1);
       reveal(q, ok, pts);
     }, reduce ? 0 : 1100);
@@ -576,12 +603,12 @@
     G.phase = "reveal";
     var last = G.idx + 1 >= G.deck.length;
     var head = ok
-      ? '<span class="mk ok">✓</span> Correct!'
-      : '<span class="mk no">✗</span> Not quite. The correct answer is <u>' + "ABCD".charAt(G.cur.pos) + "</u>.";
+      ? '<span class="mk ok">\u2713</span> ' + L(subjectById(G.subj)).ok
+      : '<span class="mk no">\u2717</span> ' + L(subjectById(G.subj)).no1 + "<u>" + "ABCD".charAt(G.cur.pos) + "</u>.";
     $("after").innerHTML =
       '<div class="why ' + (ok ? "t-" + DIFF[q.d].t : "t-x") + '"><div class="why-h">' + head + "</div>" +
-      "<p>" + esc(q.why) + '</p><span class="src">' + (q.sec === "P1" ? "Paper 1 · FP case" : "Notes · section " + dsec(q.sec)) + "</span></div>" +
-      '<div class="after-row"><span></span><button class="btn" id="next" data-go="next">' + (last ? "See results" : "Next") + "</button></div>";
+      "<p>" + esc(q.why) + '</p><span class="src">' + (L(subjectById(G.subj)).src + dsec(q.sec)) + "</span></div>" +
+      '<div class="after-row"><span></span><button class="btn" id="next" data-go="next">' + (last ? L(subjectById(G.subj)).see : L(subjectById(G.subj)).next) + "</button></div>";
     $("next").focus();
   }
 
@@ -609,13 +636,11 @@
     var right = o.results.filter(function (r) { return r.ok; }).length, pct = n ? Math.round(right / n * 100) : 0;
     var hits = right > 0;
     SFX.done(hits, pct === 100);
-    var say = pct === 100 ? "Perfect! Not a single bone missed."
-      : pct >= 80 ? "Great dig. The professor approves."
-      : pct >= 50 ? "Solid, but let's review the misses."
-      : "Keep digging. Read the explanations and try again.";
+    var T = L(s);
+    var say = pct === 100 ? T.perfect : pct >= 80 ? T.great : pct >= 50 ? T.solid : T.keep;
     var rows = o.results.map(function (r, i) {
       var q = QB.get(r.id);
-      return '<tr style="--i:' + i + '"><td>' + esc(q.q) + (r.ok ? "" : '<div class="ans-ok">Correct answer: ' + esc(q.o[q.a]) + "</div>") +
+      return '<tr style="--i:' + i + '"><td>' + esc(q.q) + (r.ok ? "" : '<div class="ans-ok">' + T.cans + esc(q.o[q.a]) + "</div>") +
         "</td><td>" + dsec(q.sec) + "</td><td>" + (r.ok ? '<span class="mk ok">✓</span>' : '<span class="mk no">✗</span>') + "</td></tr>";
     }).join("");
     var haul = o.results.filter(function (r) { return r.ok; }).map(function (r, i) {
@@ -623,15 +648,15 @@
     }).join("");
     var w = wrongIds(s).length;
     show(
-      '<header class="bar"><button class="btn ghost" data-go="home">Home</button>' +
+      '<header class="bar"><button class="btn ghost" data-go="home">' + T.home + '</button>' +
       '<h1 style="--c:' + s.color + '">' + Corgi.icon(s.icon, 22) + esc(o.label) + "</h1><span></span></header>" +
       '<main class="results"><section class="panel score"><div class="stage">' + Corgi.svg(0, 168, hits ? "happy" : "sadloop") + '<div class="mound"></div></div>' +
       '<div><div class="bubble">' + say + '</div><div class="big" id="big">' + right + " / " + n + '</div><div class="haul">' + haul + "</div>" +
-      '<div class="sub">' + pct + "% correct</div>" +
-      '<div class="acts"><button class="btn" data-go="again">Play again</button>' +
-      '<button class="btn alt"' + (w ? "" : " disabled") + ' data-run="review" data-id="' + s.id + '">Review mistakes (' + w + ")</button>" +
-      '<button class="btn ghost" data-go="subject" data-id="' + s.id + '">Back to subject</button></div></div></section>' +
-      '<section class="panel"><h2>Your answers</h2><table class="rt"><tr><th>Question</th><th>Topic</th><th>Result</th></tr>' + rows + "</table></section></main>"
+      '<div class="sub">' + pct + T.pct + "</div>" +
+      '<div class="acts"><button class="btn" data-go="again">' + T.again + '</button>' +
+      '<button class="btn alt"' + (w ? "" : " disabled") + ' data-run="review" data-id="' + s.id + '">' + T.rev + ' (' + w + ")</button>" +
+      '<button class="btn ghost" data-go="subject" data-id="' + s.id + '">' + T.back + '</button></div></div></section>' +
+      '<section class="panel"><h2>' + T.yours + '</h2><table class="rt"><tr><th>' + T.cq + '</th><th>' + T.ct + '</th><th>' + T.cr + '</th></tr>' + rows + "</table></section></main>"
     );
   }
 

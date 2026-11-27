@@ -33,17 +33,62 @@ window.SUBJECTS = [
   }
 ];
 
-// Carpeta Exam: copia aparte de los temas de la lista inicial (1.1–1.6, 2.1–2.3, 3.1–3.3, 4.1, 4.2, 4.4, 4.5) más el caso Paper 1 (FP).
-// Sus preguntas son copias congeladas (data/ex_*.js); los ids de sección llevan una X delante y el juego la oculta.
+// Física SL (español). Secciones = subtemas del apunte de Kognity (solo nivel medio; se omite el contenido HL).
+window.SUBJECTS.push({
+  id: "fis", lang: "es", name: "Física NM (SL)", color: "#3ba0d8", icon: "planeta",
+  desc: "Programa del Diploma del IB. Temas A a E del curso, en español y con estilo de examen.",
+  units: [
+    { id: "fa1", name: "A.1 · Cinemática", secs: [
+      ["A.1.1", "Vectores"], ["A.1.2", "Descripción del movimiento"], ["A.1.3", "Ecuaciones del movimiento"], ["A.1.4", "Movimiento de proyectiles"]
+    ] },
+    { id: "fa2", name: "A.2 · Fuerzas y momento lineal", secs: [
+      ["A.2.1", "Las fuerzas"], ["A.2.2", "Fuerzas de campo"], ["A.2.3", "Normal, fricción y tensión"], ["A.2.4", "Elástica, viscosa y empuje"],
+      ["A.2.5", "Leyes de Newton"], ["A.2.6", "Momento lineal e impulso"], ["A.2.7", "Colisiones y explosiones"], ["A.2.8", "Movimiento circular"]
+    ] },
+    { id: "fa3", name: "A.3 · Trabajo, energía y potencia", secs: [
+      ["A.3.1", "Trabajo y energía"], ["A.3.2", "Conservación de la energía"], ["A.3.3", "Potencia y eficiencia"], ["A.3.4", "Densidad energética de los combustibles"]
+    ] },
+    { id: "fb1", name: "B.1 · Transferencias de energía térmica", secs: [
+      ["B.1.1", "Teoría molecular de la materia"], ["B.1.2", "Escalas de temperatura"], ["B.1.3", "Cambio de temperatura y de fase"],
+      ["B.1.4", "Transferencia de energía térmica"], ["B.1.5", "Emisión del cuerpo negro"]
+    ] },
+    { id: "fb2", name: "B.2 · Efecto invernadero", secs: [["B.2.1", "Energía del Sol"], ["B.2.2", "Balance de energía de la Tierra"]] },
+    { id: "fb3", name: "B.3 · Leyes de los gases", secs: [["B.3.1", "Gases ideales"], ["B.3.2", "Comportamiento de los gases ideales"]] },
+    { id: "fb5", name: "B.5 · Corriente y circuitos", secs: [
+      ["B.5.1", "Potencial eléctrico y corriente"], ["B.5.2", "Resistencia y ley de Ohm"], ["B.5.3", "Circuitos en serie y en paralelo"],
+      ["B.5.4", "Circuitos y potencia"], ["B.5.5", "Pilas y resistencia interna"]
+    ] },
+    { id: "fc1", name: "C.1 · Movimiento armónico simple", secs: [["C.1.1", "Movimiento armónico simple"], ["C.1.2", "Péndulos y masa-resorte"]] },
+    { id: "fc2", name: "C.2 · Modelo ondulatorio", secs: [["C.2.1", "Ondas transversales y longitudinales"], ["C.2.2", "Descripción de las ondas"], ["C.2.3", "Ondas sonoras y electromagnéticas"]] },
+    { id: "fc3", name: "C.3 · Fenómenos ondulatorios", secs: [
+      ["C.3.1", "Reflexión, refracción y difracción"], ["C.3.2", "Ley de Snell y reflexión interna total"], ["C.3.3", "Superposición y doble rendija de Young"]
+    ] },
+    { id: "fc4", name: "C.4 · Ondas estacionarias y resonancia", secs: [
+      ["C.4.1", "Ondas estacionarias"], ["C.4.2", "Ondas estacionarias en cuerdas y tubos"], ["C.4.3", "Resonancia y amortiguamiento"]
+    ] },
+    { id: "fc5", name: "C.5 · Efecto Doppler", secs: [["C.5.1", "El efecto Doppler"], ["C.5.2", "La luz y el efecto Doppler"]] },
+    { id: "fd1", name: "D.1 · Campos gravitatorios", secs: [["D.1.1", "Kepler y gravitación universal"], ["D.1.2", "Campo gravitatorio e intensidad"]] },
+    { id: "fd2", name: "D.2 · Campos eléctricos y magnéticos", secs: [
+      ["D.2.1", "Carga eléctrica"], ["D.2.2", "Ley de Coulomb"], ["D.2.3", "Campos eléctricos"], ["D.2.4", "Campos magnéticos"]
+    ] },
+    { id: "fd3", name: "D.3 · Movimiento en campos electromagnéticos", secs: [
+      ["D.3.1", "Partícula en un campo eléctrico uniforme"], ["D.3.2", "Partícula en un campo magnético uniforme"],
+      ["D.3.3", "Magnitud de la fuerza magnética"], ["D.3.4", "Corriente y campos magnéticos"]
+    ] }
+  ]
+});
+
+// Carpeta temporal del examen de física: temas A, B.1 a B.3, B.5 sin Kirchhoff/fem/resistencia interna/divisores, C y D.
+// Usa copias de las preguntas de la materia (ids con X delante; el juego la oculta). data/fis_examen.js las clona al cargar.
 (function () {
-  var base = window.SUBJECTS[0];
-  var units = base.units.slice(0, 4).map(function (u) {
-    return { id: "x" + u.id, name: u.name, secs: u.secs.map(function (s) { return ["X" + s[0], s[1]]; }) };
+  var base = window.SUBJECTS.filter(function (s) { return s.id === "fis"; })[0];
+  var skip = { "B.5.5": 1 };
+  var units = base.units.filter(function (u) { return u.id !== "fe1" && u.id.charAt(1) !== "e"; }).map(function (u) {
+    return { id: "x" + u.id, name: u.name, secs: u.secs.filter(function (s) { return !skip[s[0]]; }).map(function (s) { return ["X" + s[0], s[1]]; }) };
   });
-  units.push({ id: "xp1", name: "PAPER 1 · Foot Power Ltd (FP)", secs: [["P1", "Case study: EcoStep tiles (temporary)"]] });
   window.SUBJECTS.push({
-    id: "bmexam", name: "Exam folder · Business Management HL", color: "#ef7b45", icon: "pokeball",
-    desc: "A separate copy of the first topics, kept as it is for exam practice, plus the Paper 1 case study.",
+    id: "fisexam", lang: "es", name: "Examen de mañana · Física NM", color: "#ef7b45", icon: "pokeball",
+    desc: "Carpeta temporal con los temas del examen: A, B.1 a B.3, circuitos (B.5) sin Kirchhoff, C y D.",
     units: units
   });
 })();
